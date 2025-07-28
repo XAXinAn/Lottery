@@ -9,19 +9,19 @@ import com.ruoyi.lottery.service.IWinTransactionsService;
 
 /**
  * 中奖交易记录Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2025-07-28
  */
 @Service
-public class WinTransactionsServiceImpl implements IWinTransactionsService 
+public class WinTransactionsServiceImpl implements IWinTransactionsService
 {
     @Autowired
     private WinTransactionsMapper winTransactionsMapper;
 
     /**
      * 查询中奖交易记录
-     * 
+     *
      * @param time 中奖交易记录主键
      * @return 中奖交易记录
      */
@@ -33,7 +33,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
 
     /**
      * 查询中奖交易记录列表
-     * 
+     *
      * @param winTransactions 中奖交易记录
      * @return 中奖交易记录
      */
@@ -45,7 +45,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
 
     /**
      * 新增中奖交易记录
-     * 
+     *
      * @param winTransactions 中奖交易记录
      * @return 结果
      */
@@ -57,7 +57,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
 
     /**
      * 修改中奖交易记录
-     * 
+     *
      * @param winTransactions 中奖交易记录
      * @return 结果
      */
@@ -69,7 +69,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
 
     /**
      * 批量删除中奖交易记录
-     * 
+     *
      * @param times 需要删除的中奖交易记录主键
      * @return 结果
      */
@@ -81,7 +81,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
 
     /**
      * 删除中奖交易记录信息
-     * 
+     *
      * @param time 中奖交易记录主键
      * @return 结果
      */
@@ -89,5 +89,11 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
     public int deleteWinTransactionsByTime(Long time)
     {
         return winTransactionsMapper.deleteWinTransactionsByTime(time);
+    }
+
+    @Override
+    public String lottery() {
+
+        return null;
     }
 }

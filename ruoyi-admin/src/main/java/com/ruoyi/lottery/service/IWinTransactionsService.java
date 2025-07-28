@@ -59,9 +59,9 @@ public interface IWinTransactionsService
      */
     public int deleteWinTransactionsByTime(Long time);
 
-//    /**
-//     * 抽奖
-//     * @return 结果
-//     */
-//    public String lottery();
+    /**
+     * 抽奖
+     * @return 结果
+     */
+    public String lottery();
 }
