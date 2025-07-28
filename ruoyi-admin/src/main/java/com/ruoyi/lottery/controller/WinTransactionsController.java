@@ -1,7 +1,11 @@
 package com.ruoyi.lottery.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.lottery.domain.Transactions;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +27,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 中奖交易记录Controller
- * 
+ *
  * @author ruoyi
  * @date 2025-07-28
  */
@@ -100,5 +104,24 @@ public class WinTransactionsController extends BaseController
     public AjaxResult remove(@PathVariable Long[] times)
     {
         return toAjax(winTransactionsService.deleteWinTransactionsByTimes(times));
+    }
+
+    /**
+     * 抽奖接口
+     */
+    @GetMapping("/lottery")
+    public AjaxResult lottery()
+    {
+        List<WinTransactions> winTransactionsList = new ArrayList<>();
+        WinTransactions winTransaction = new WinTransactions(1L,9234167L,20250117L,19451778L,731282L, BigDecimal.valueOf(66.3),"966230","966230","7dcee2c765c9b735ded5b1c21e49a566","正常","江*","76bfee1a83612afd24cf4fa479a206ba","b40fa3006cd062625dc56c88eb32eeca","银行**");
+        winTransactionsList.add(winTransaction);
+//        List<Prize> prizes = new ArrayList<>();
+//        prizes.add(new Prize(5,50,35,700));
+//        prizes.add(new Prize(50,100,10,800));
+//        prizes.add(new Prize(100,800,5,1500));
+//        List<Transactions> transactionsList = transactionsService.lottery(prizes);
+//        return AjaxResult.success(transactionsList);
+//        return success(winTransactionsService.lottery());
+        return success(winTransactionsList);
     }
 }

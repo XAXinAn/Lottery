@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 中奖交易记录对象 win_transactions
- * 
+ *
  * @author ruoyi
  * @date 2025-07-28
  */
@@ -72,142 +72,142 @@ public class WinTransactions extends BaseEntity
     @Excel(name = "机构名称")
     private String orgName;
 
-    public void setTime(Long time) 
+    public void setTime(Long time)
     {
         this.time = time;
     }
 
-    public Long getTime() 
+    public Long getTime()
     {
         return time;
     }
 
-    public void setAcctnbr(Long acctnbr) 
+    public void setAcctnbr(Long acctnbr)
     {
         this.acctnbr = acctnbr;
     }
 
-    public Long getAcctnbr() 
+    public Long getAcctnbr()
     {
         return acctnbr;
     }
 
-    public void setInpDate(Long inpDate) 
+    public void setInpDate(Long inpDate)
     {
         this.inpDate = inpDate;
     }
 
-    public Long getInpDate() 
+    public Long getInpDate()
     {
         return inpDate;
     }
 
-    public void setInpTime(Long inpTime) 
+    public void setInpTime(Long inpTime)
     {
         this.inpTime = inpTime;
     }
 
-    public Long getInpTime() 
+    public Long getInpTime()
     {
         return inpTime;
     }
 
-    public void setXtranno(Long xtranno) 
+    public void setXtranno(Long xtranno)
     {
         this.xtranno = xtranno;
     }
 
-    public Long getXtranno() 
+    public Long getXtranno()
     {
         return xtranno;
     }
 
-    public void setBillAmt(BigDecimal billAmt) 
+    public void setBillAmt(BigDecimal billAmt)
     {
         this.billAmt = billAmt;
     }
 
-    public BigDecimal getBillAmt() 
+    public BigDecimal getBillAmt()
     {
         return billAmt;
     }
 
-    public void setOrg1Code(String org1Code) 
+    public void setOrg1Code(String org1Code)
     {
         this.org1Code = org1Code;
     }
 
-    public String getOrg1Code() 
+    public String getOrg1Code()
     {
         return org1Code;
     }
 
-    public void setOrgNo(String orgNo) 
+    public void setOrgNo(String orgNo)
     {
         this.orgNo = orgNo;
     }
 
-    public String getOrgNo() 
+    public String getOrgNo()
     {
         return orgNo;
     }
 
-    public void setCustIsn(String custIsn) 
+    public void setCustIsn(String custIsn)
     {
         this.custIsn = custIsn;
     }
 
-    public String getCustIsn() 
+    public String getCustIsn()
     {
         return custIsn;
     }
 
-    public void setCardStatusTxt(String cardStatusTxt) 
+    public void setCardStatusTxt(String cardStatusTxt)
     {
         this.cardStatusTxt = cardStatusTxt;
     }
 
-    public String getCardStatusTxt() 
+    public String getCardStatusTxt()
     {
         return cardStatusTxt;
     }
 
-    public void setCustName(String custName) 
+    public void setCustName(String custName)
     {
         this.custName = custName;
     }
 
-    public String getCustName() 
+    public String getCustName()
     {
         return custName;
     }
 
-    public void setCertNo(String certNo) 
+    public void setCertNo(String certNo)
     {
         this.certNo = certNo;
     }
 
-    public String getCertNo() 
+    public String getCertNo()
     {
         return certNo;
     }
 
-    public void setCardNo(String cardNo) 
+    public void setCardNo(String cardNo)
     {
         this.cardNo = cardNo;
     }
 
-    public String getCardNo() 
+    public String getCardNo()
     {
         return cardNo;
     }
 
-    public void setOrgName(String orgName) 
+    public void setOrgName(String orgName)
     {
         this.orgName = orgName;
     }
 
-    public String getOrgName() 
+    public String getOrgName()
     {
         return orgName;
     }
@@ -230,5 +230,22 @@ public class WinTransactions extends BaseEntity
             .append("cardNo", getCardNo())
             .append("orgName", getOrgName())
             .toString();
+    }
+
+    public WinTransactions(Long time, Long acctnbr, Long inpTime, Long inpDate, Long xtranno, BigDecimal billAmt, String org1Code, String orgNo, String custIsn, String cardStatusTxt, String custName, String certNo, String cardNo, String orgName) {
+        this.time = time;
+        this.acctnbr = acctnbr;
+        this.inpTime = inpTime;
+        this.inpDate = inpDate;
+        this.xtranno = xtranno;
+        this.org1Code = org1Code;
+        this.billAmt = billAmt;
+        this.orgNo = orgNo;
+        this.custIsn = custIsn;
+        this.cardStatusTxt = cardStatusTxt;
+        this.custName = custName;
+        this.certNo = certNo;
+        this.cardNo = cardNo;
+        this.orgName = orgName;
     }
 }

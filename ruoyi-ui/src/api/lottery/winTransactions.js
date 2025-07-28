@@ -42,3 +42,11 @@ export function delWinTransactions(time) {
     method: 'delete'
   })
 }
+
+// 抽奖接口
+export function lotteryWinTransactions() {
+  return request({
+    url: '/lottery/winTransactions/lottery',
+    method: 'get'
+  })
+}

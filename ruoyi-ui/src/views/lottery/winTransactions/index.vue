@@ -162,6 +162,16 @@
           v-hasPermi="['lottery:winTransactions:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-gift"
+          size="mini"
+          @click="handleLottery"
+          v-hasPermi="['lottery:winTransactions:lottery']"
+        >抽奖</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -260,11 +270,40 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 中奖信息列表对话框 -->
+    <el-dialog :title="'中奖信息列表'" :visible.sync="lotteryDialogVisible" width="1500px">
+      <el-table :data="lotteryList">
+        <el-table-column label="轮次" align="center" prop="time" />
+        <el-table-column label="信用卡账号" align="center" prop="acctnbr" />
+        <el-table-column label="交易日期" align="center" prop="inpDate" />
+        <el-table-column label="交易时间" align="center" prop="inpTime" />
+        <el-table-column label="交易序号" align="center" prop="xtranno" />
+        <el-table-column label="交易金额" align="center" prop="billAmt" />
+        <el-table-column label="支行号" align="center" prop="org1Code" />
+        <el-table-column label="网点号" align="center" prop="orgNo" />
+        <el-table-column label="客户内码" align="center" prop="custIsn" />
+        <el-table-column label="卡片状态" align="center" prop="cardStatusTxt" />
+        <el-table-column label="客户名称" align="center" prop="custName" />
+        <el-table-column label="身份证号码" align="center" prop="certNo" />
+        <el-table-column label="信用卡卡号" align="center" prop="cardNo" />
+        <el-table-column label="机构名称" align="center" prop="orgName" />
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="lotteryDialogVisible = false">关闭</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listWinTransactions, getWinTransactions, delWinTransactions, addWinTransactions, updateWinTransactions } from "@/api/lottery/winTransactions"
+import {
+  listWinTransactions,
+  getWinTransactions,
+  delWinTransactions,
+  addWinTransactions,
+  updateWinTransactions,
+  lotteryWinTransactions
+} from "@/api/lottery/winTransactions"
 
 export default {
   name: "WinTransactions",
@@ -311,7 +350,11 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      // 中奖信息列表对话框是否显示
+      lotteryDialogVisible: false,
+      // 中奖信息列表
+      lotteryList: []
     }
   },
   created() {
@@ -419,6 +462,15 @@ export default {
       this.download('lottery/winTransactions/export', {
         ...this.queryParams
       }, `winTransactions_${new Date().getTime()}.xlsx`)
+    },
+    /** 抽奖按钮操作 */
+    handleLottery() {
+      this.loading = true;
+      lotteryWinTransactions().then(response => {
+        this.loading = false;
+        this.lotteryList = response.data;
+        this.lotteryDialogVisible = true;
+      });
     }
   }
 }
