@@ -9,6 +9,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="状态码" prop="status">
+      <el-input
+        v-model="queryParams.status"
+        placeholder="请输入状态码"
+        clearable
+        @keyup.enter.native="handleQuery"
+      />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -84,7 +92,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -98,6 +106,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="支行号" prop="org1Code">
           <el-input v-model="form.org1Code" placeholder="请输入支行号" />
+        </el-form-item>
+        <el-form-item label="状态码" prop="status">
+          <el-input v-model="form.status" placeholder="请输入状态码" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
