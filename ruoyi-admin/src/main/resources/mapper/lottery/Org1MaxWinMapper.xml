@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lottery.mapper.Org1MaxWinMapper">
+
+    <resultMap type="Org1MaxWin" id="Org1MaxWinResult">
+        <result property="org1Code"    column="org1_code"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectOrg1MaxWinVo">
+        select org1_code, status from org1_max_win
+    </sql>
+
+    <select id="selectOrg1MaxWinList" parameterType="Org1MaxWin" resultMap="Org1MaxWinResult">
+        <include refid="selectOrg1MaxWinVo"/>
+        <where>
+            <if test="org1Code != null  and org1Code != ''"> and org1_code = #{org1Code}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectOrg1MaxWinByOrg1Code" parameterType="String" resultMap="Org1MaxWinResult">
+        <include refid="selectOrg1MaxWinVo"/>
+        where org1_code = #{org1Code}
+    </select>
+
+    <insert id="insertOrg1MaxWin" parameterType="Org1MaxWin">
+        insert into org1_max_win
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="org1Code != null">org1_code,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="org1Code != null">#{org1Code},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrg1MaxWin" parameterType="Org1MaxWin">
+        update org1_max_win
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where org1_code = #{org1Code}
+    </update>
+
+    <delete id="deleteOrg1MaxWinByOrg1Code" parameterType="String">
+        delete from org1_max_win where org1_code = #{org1Code}
+    </delete>
+
+    <delete id="deleteOrg1MaxWinByOrg1Codes" parameterType="String">
+        delete from org1_max_win where org1_code in
+        <foreach item="org1Code" collection="array" open="(" separator="," close=")">
+            #{org1Code}
+        </foreach>
+    </delete>
+
+    <select id="getOrg1Status" parameterType="string" resultType="int">
+        SELECT status from org1_max_win where org1_code = #{org1Code}
+    </select>
+
+    <update id="updateOrg1MaxWinStatusTo0" parameterType="string">
+        UPDATE org1_max_win
+        SET status = 0
+        WHERE org1_code = #{org1Code}
+    </update>
+
+    <update id="updateOrg1MaxWinStatusTo1" parameterType="String">
+        UPDATE org1_max_win
+        SET status = 1
+        WHERE org1_code = #{org1Code}
+    </update>
+</mapper>

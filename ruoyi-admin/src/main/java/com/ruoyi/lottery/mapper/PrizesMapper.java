@@ -3,6 +3,7 @@ package com.ruoyi.lottery.mapper;
 import java.math.BigDecimal;
 import java.util.List;
 import com.ruoyi.lottery.domain.Prizes;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 中奖区间信息Mapper接口
@@ -10,6 +11,7 @@ import com.ruoyi.lottery.domain.Prizes;
  * @author ruoyi
  * @date 2025-07-28
  */
+@Mapper
 public interface PrizesMapper
 {
     /**

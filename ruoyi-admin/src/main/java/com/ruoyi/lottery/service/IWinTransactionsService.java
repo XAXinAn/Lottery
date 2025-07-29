@@ -1,6 +1,8 @@
 package com.ruoyi.lottery.service;
 
 import java.util.List;
+
+import com.ruoyi.lottery.domain.Transactions;
 import com.ruoyi.lottery.domain.WinTransactions;
 
 /**
@@ -63,5 +65,5 @@ public interface IWinTransactionsService
      * 抽奖
      * @return 结果
      */
-    public String lottery();
+    public List<Transactions> lottery();
 }

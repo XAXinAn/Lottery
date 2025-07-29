@@ -238,8 +238,8 @@ public class WinTransactions extends BaseEntity
         this.inpTime = inpTime;
         this.inpDate = inpDate;
         this.xtranno = xtranno;
-        this.org1Code = org1Code;
         this.billAmt = billAmt;
+        this.org1Code = org1Code;
         this.orgNo = orgNo;
         this.custIsn = custIsn;
         this.cardStatusTxt = cardStatusTxt;

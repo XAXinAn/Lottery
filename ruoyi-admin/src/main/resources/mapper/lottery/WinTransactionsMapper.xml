@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.lottery.mapper.WinTransactionsMapper">
-    
+
     <resultMap type="WinTransactions" id="WinTransactionsResult">
         <result property="time"    column="time"    />
         <result property="acctnbr"    column="acctnbr"    />
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectWinTransactionsList" parameterType="WinTransactions" resultMap="WinTransactionsResult">
         <include refid="selectWinTransactionsVo"/>
-        <where>  
+        <where>
             <if test="time != null "> and time = #{time}</if>
             <if test="acctnbr != null "> and acctnbr = #{acctnbr}</if>
             <if test="inpDate != null "> and inp_date = #{inpDate}</if>
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectWinTransactionsByTime" parameterType="Long" resultMap="WinTransactionsResult">
         <include refid="selectWinTransactionsVo"/>
         where time = #{time}
@@ -111,9 +111,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteWinTransactionsByTimes" parameterType="String">
-        delete from win_transactions where time in 
+        delete from win_transactions where time in
         <foreach item="time" collection="array" open="(" separator="," close=")">
             #{time}
         </foreach>
     </delete>
+
+    <select id="getMaxTime" resultType="Long">
+        SELECT COALESCE(MAX(time), 0) AS max_time FROM win_transactions
+    </select>
+
+    <select id="existsCust" parameterType="string" resultType="boolean">
+        SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM win_transactions WHERE cust_isn = #{custIsn}
+        ) THEN TRUE ELSE FALSE END
+    </select>
+
+    <select id="existsOrgNo" parameterType="string" resultType="boolean">
+        SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM win_transactions WHERE org_no = #{orgNo}
+        ) THEN TRUE ELSE FALSE END
+    </select>
+
+    <select id="existsOrgNoWithTime" resultType="boolean">
+        SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM win_transactions WHERE org_no = #{transactions.orgNo} AND time = #{time}
+        ) THEN TRUE ELSE FALSE END
+    </select>
 </mapper>

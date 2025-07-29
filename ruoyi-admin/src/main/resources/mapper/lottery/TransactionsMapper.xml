@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.lottery.mapper.TransactionsMapper">
-    
+
     <resultMap type="Transactions" id="TransactionsResult">
         <result property="acctnbr"    column="acctnbr"    />
         <result property="inpDate"    column="inp_date"    />
@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTransactionsList" parameterType="Transactions" resultMap="TransactionsResult">
         <include refid="selectTransactionsVo"/>
-        <where>  
+        <where>
             <if test="acctnbr != null "> and acctnbr = #{acctnbr}</if>
             <if test="inpDate != null "> and inp_date = #{inpDate}</if>
             <if test="inpTime != null "> and inp_time = #{inpTime}</if>
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectTransactionsByAcctnbr" parameterType="Long" resultMap="TransactionsResult">
         <include refid="selectTransactionsVo"/>
         where acctnbr = #{acctnbr}
@@ -106,9 +106,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTransactionsByAcctnbrs" parameterType="String">
-        delete from transactions where acctnbr in 
+        delete from transactions where acctnbr in
         <foreach item="acctnbr" collection="array" open="(" separator="," close=")">
             #{acctnbr}
         </foreach>
     </delete>
+
+    <select id="selectTransactionsByAmountRange" parameterType="Prizes" resultMap="TransactionsResult">
+        select acctnbr, inp_date, inp_time, xtranno, bill_amt, org1_code, org_no, cust_isn, card_status_txt, cust_name, cert_no, card_no, org_name
+        FROM transactions t
+        <where>
+            <if test="minAmount != null"> and bill_amt >= #{minAmount}</if>
+            <if test="maxAmount != null"> and bill_amt &lt; #{maxAmount}</if>
+            and not exists (
+            select 1
+            from win_transactions w
+            where w.xtranno = t.xtranno
+            )
+        </where>
+    </select>
+
+    <select id="selectTransactionsByAmountRangeWithoutLastWin" resultMap="TransactionsResult">
+        SELECT acctnbr, inp_date, inp_time, xtranno, bill_amt, org1_code, org_no, cust_isn, card_status_txt, cust_name, cert_no, card_no, org_name
+        FROM transactions t
+        <where>
+            <if test="prize != null and prize.minAmount != null"> AND t.bill_amt >= #{prize.minAmount}</if>
+            <if test="prize != null and prize.maxAmount != null"> AND t.bill_amt &lt; #{prize.maxAmount}</if>
+            AND NOT EXISTS (
+            SELECT 1
+            FROM win_transactions w
+            WHERE w.org_no = t.org_no
+            AND w.time = #{time}
+            )
+        </where>
+    </select>
+
+    <select id="selectTransactionsByAmountRangeWithLastWin" resultMap="TransactionsResult">
+        SELECT acctnbr, inp_date, inp_time, xtranno, bill_amt, org1_code, org_no, cust_isn, card_status_txt, cust_name, cert_no, card_no, org_name
+        FROM transactions t
+        <where>
+            <if test="prize != null and prize.minAmount != null"> AND t.bill_amt >= #{prize.minAmount}</if>
+            <if test="prize != null and prize.maxAmount != null"> AND t.bill_amt &lt; #{prize.maxAmount}</if>
+            AND EXISTS (
+            SELECT 1
+            FROM win_transactions w
+            WHERE w.org_no = t.org_no
+            AND w.time = #{time}
+            )
+        </where>
+    </select>
 </mapper>

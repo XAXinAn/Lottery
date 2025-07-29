@@ -273,7 +273,6 @@
     <!-- 中奖信息列表对话框 -->
     <el-dialog :title="'中奖信息列表'" :visible.sync="lotteryDialogVisible" width="1500px">
       <el-table :data="lotteryList">
-        <el-table-column label="轮次" align="center" prop="time" />
         <el-table-column label="信用卡账号" align="center" prop="acctnbr" />
         <el-table-column label="交易日期" align="center" prop="inpDate" />
         <el-table-column label="交易时间" align="center" prop="inpTime" />
