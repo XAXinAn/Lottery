@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lottery.mapper.OrgNoMapper">
+    
+    <resultMap type="OrgNo" id="OrgNoResult">
+        <result property="orgNo"    column="org_no"    />
+    </resultMap>
+
+    <sql id="selectOrgNoVo">
+        select org_no from org_no
+    </sql>
+
+    <select id="selectOrgNoList" parameterType="OrgNo" resultMap="OrgNoResult">
+        <include refid="selectOrgNoVo"/>
+        <where>  
+            <if test="orgNo != null  and orgNo != ''"> and org_no = #{orgNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrgNoByOrgNo" parameterType="String" resultMap="OrgNoResult">
+        <include refid="selectOrgNoVo"/>
+        where org_no = #{orgNo}
+    </select>
+
+    <insert id="insertOrgNo" parameterType="OrgNo">
+        insert into org_no
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgNo != null">org_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orgNo != null">#{orgNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrgNo" parameterType="OrgNo">
+        update org_no
+        <trim prefix="SET" suffixOverrides=",">
+        </trim>
+        where org_no = #{orgNo}
+    </update>
+
+    <delete id="deleteOrgNoByOrgNo" parameterType="String">
+        delete from org_no where org_no = #{orgNo}
+    </delete>
+
+    <delete id="deleteOrgNoByOrgNos" parameterType="String">
+        delete from org_no where org_no in 
+        <foreach item="orgNo" collection="array" open="(" separator="," close=")">
+            #{orgNo}
+        </foreach>
+    </delete>
+</mapper>

@@ -164,7 +164,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                     }
                     sum = getBillAmtsSum(billAmounts);
                     maxBillAmountTransaction = temp.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (sum < prize.getBudget().doubleValue() * 0.95 || sum > prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1) );
+                } while (sum < prize.getBudget().doubleValue() * 0.95 || sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1) );
                 result.addAll(temp);
                 finalResult.addAll(temp);
                 if(prize == prizesList.get(prizesList.size() - 1)){
@@ -215,8 +215,11 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                         }
                     }
                     sum = getBillAmtsSum(billAmounts);
+                    if (temp.isEmpty()){
+                        continue;
+                    }
                     maxBillAmountTransaction = temp.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (sum > prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
+                } while (sum < prize.getBudget().doubleValue() || sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
                 result.addAll(temp);
                 finalResult.addAll(temp);
 
@@ -261,8 +264,11 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                     sum = getBillAmtsSum(billAmounts);
                     List<Transactions> allTransactions = new ArrayList<>(tempTranscript);
                     allTransactions.addAll(temp);
+                    if (temp.isEmpty()){
+                        continue;
+                    }
                     maxBillAmountTransaction = allTransactions.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (lastsum + sum < prize.getBudget().doubleValue() * 0.95 || lastsum + sum > prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
+                } while (lastsum + sum < prize.getBudget().doubleValue() * 0.95 || lastsum + sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
                 result.addAll(temp);
                 finalResult.addAll(temp);
                 if(prize == prizesList.get(prizesList.size() - 1)){
