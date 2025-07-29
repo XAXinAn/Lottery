@@ -155,4 +155,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             )
         </where>
     </select>
+
+    <select id="getTotalOrgNoNum" resultType="int">
+        select count(distinct org_no) from transactions
+    </select>
 </mapper>

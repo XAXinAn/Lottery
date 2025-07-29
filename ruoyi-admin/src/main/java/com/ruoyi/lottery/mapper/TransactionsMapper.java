@@ -76,4 +76,6 @@ public interface TransactionsMapper
     public List<Transactions> selectTransactionsByAmountRangeWithoutLastWin(@Param("prize") Prizes prize, @Param("time") Long time);
 
     public List<Transactions> selectTransactionsByAmountRangeWithLastWin(@Param("prize") Prizes prize, @Param("time") Long time);
+
+    public int getTotalOrgNoNum();
 }
