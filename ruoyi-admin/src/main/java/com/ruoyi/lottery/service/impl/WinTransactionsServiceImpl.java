@@ -129,8 +129,10 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                 //取出金额区间内的交易记录
                 List<Transactions> transactionsList = transactionsMapper.selectTransactionsByAmountRange(prize);
                 Transactions maxBillAmountTransaction = null;
+                long looptime = 0;
                 //随机打乱交易记录
                 do {
+                    looptime++;
                     transactionsList.addAll(temp);
                     temp.clear();
                     result.clear();
@@ -164,7 +166,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                     }
                     sum = getBillAmtsSum(billAmounts);
                     maxBillAmountTransaction = temp.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (sum < prize.getBudget().doubleValue() * 0.95 || sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1) );
+                } while (sum < prize.getBudget().doubleValue() * (0.95 - looptime * 0.005) || sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1) );
                 result.addAll(temp);
                 finalResult.addAll(temp);
                 if(prize == prizesList.get(prizesList.size() - 1)){
@@ -183,7 +185,9 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                 List<Transactions> transactionsList = transactionsMapper.selectTransactionsByAmountRangeWithoutLastWin(prize, time-1);
                 Transactions maxBillAmountTransaction = null;
                 //随机打乱交易记录
+                long looptime = 0;
                 do {
+                    looptime++;
                     transactionsList.addAll(temp);
                     temp.clear();
                     result.clear();
@@ -219,7 +223,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                         continue;
                     }
                     maxBillAmountTransaction = temp.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (sum < prize.getBudget().doubleValue() || sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
+                } while (sum < prize.getBudget().doubleValue() * 0.3 * (0.95 - looptime * 0.005) || sum >= prize.getBudget().doubleValue() * 0.14 * (1 + looptime * 0.005) || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
                 result.addAll(temp);
                 finalResult.addAll(temp);
 
@@ -229,8 +233,10 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                 long num = prize.getNum() - temp.size();
                 transactionsList = transactionsMapper.selectTransactionsByAmountRangeWithLastWin(prize, time - 1);//查询出上一轮中过奖的网点的在本次金额区间内的记录
                 maxBillAmountTransaction = null;
+                looptime = 0;
                 //随机打乱交易记录
                 do {
+                    looptime++;
                     transactionsList.addAll(temp);
                     temp.clear();
                     result.clear();
@@ -268,7 +274,7 @@ public class WinTransactionsServiceImpl implements IWinTransactionsService
                         continue;
                     }
                     maxBillAmountTransaction = allTransactions.stream().max(Comparator.comparing(Transactions::getBillAmt)).get();
-                } while (lastsum + sum < prize.getBudget().doubleValue() * 0.95 || lastsum + sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
+                } while (lastsum + sum < prize.getBudget().doubleValue() * (0.95 - looptime * 0.005) || lastsum + sum >= prize.getBudget().doubleValue() || (prize == prizesList.get(prizesList.size() - 1) && org1MaxWinMapper.getOrg1Status(maxBillAmountTransaction.getOrg1Code()) == 1));
                 result.addAll(temp);
                 finalResult.addAll(temp);
                 if(prize == prizesList.get(prizesList.size() - 1)){
