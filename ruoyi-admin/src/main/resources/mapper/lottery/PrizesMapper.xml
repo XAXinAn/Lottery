@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lottery.mapper.PrizesMapper">
+    
+    <resultMap type="Prizes" id="PrizesResult">
+        <result property="id"    column="id"    />
+        <result property="maxAmount"    column="maxAmount"    />
+        <result property="minAmount"    column="minAmount"    />
+        <result property="num"    column="num"    />
+        <result property="budget"    column="budget"    />
+    </resultMap>
+
+    <sql id="selectPrizesVo">
+        select id, maxAmount, minAmount, num, budget from prizes
+    </sql>
+
+    <select id="selectPrizesList" parameterType="Prizes" resultMap="PrizesResult">
+        <include refid="selectPrizesVo"/>
+        <where>  
+            <if test="maxAmount != null "> and maxAmount = #{maxAmount}</if>
+            <if test="minAmount != null "> and minAmount = #{minAmount}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="budget != null "> and budget = #{budget}</if>
+        </where>
+    </select>
+    
+    <select id="selectPrizesById" parameterType="Long" resultMap="PrizesResult">
+        <include refid="selectPrizesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPrizes" parameterType="Prizes" useGeneratedKeys="true" keyProperty="id">
+        insert into prizes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="maxAmount != null">maxAmount,</if>
+            <if test="minAmount != null">minAmount,</if>
+            <if test="num != null">num,</if>
+            <if test="budget != null">budget,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="maxAmount != null">#{maxAmount},</if>
+            <if test="minAmount != null">#{minAmount},</if>
+            <if test="num != null">#{num},</if>
+            <if test="budget != null">#{budget},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePrizes" parameterType="Prizes">
+        update prizes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="maxAmount != null">maxAmount = #{maxAmount},</if>
+            <if test="minAmount != null">minAmount = #{minAmount},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="budget != null">budget = #{budget},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePrizesById" parameterType="Long">
+        delete from prizes where id = #{id}
+    </delete>
+
+    <delete id="deletePrizesByIds" parameterType="String">
+        delete from prizes where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lottery.mapper.TransactionsMapper">
+    
+    <resultMap type="Transactions" id="TransactionsResult">
+        <result property="id"    column="id"    />
+        <result property="acctnbr"    column="acctnbr"    />
+        <result property="inpDate"    column="inp_date"    />
+        <result property="inpTime"    column="inp_time"    />
+        <result property="xtranno"    column="xtranno"    />
+        <result property="billAmt"    column="bill_amt"    />
+        <result property="org1Code"    column="org1_code"    />
+        <result property="orgNo"    column="org_no"    />
+        <result property="custIsn"    column="cust_isn"    />
+        <result property="cardStatusTxt"    column="card_status_txt"    />
+        <result property="custName"    column="cust_name"    />
+        <result property="certNo"    column="cert_no"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="orgName"    column="org_name"    />
+    </resultMap>
+
+    <sql id="selectTransactionsVo">
+        select id, acctnbr, inp_date, inp_time, xtranno, bill_amt, org1_code, org_no, cust_isn, card_status_txt, cust_name, cert_no, card_no, org_name from transactions
+    </sql>
+
+    <select id="selectTransactionsList" parameterType="Transactions" resultMap="TransactionsResult">
+        <include refid="selectTransactionsVo"/>
+        <where>  
+            <if test="acctnbr != null "> and acctnbr = #{acctnbr}</if>
+            <if test="inpDate != null "> and inp_date = #{inpDate}</if>
+            <if test="inpTime != null "> and inp_time = #{inpTime}</if>
+            <if test="xtranno != null "> and xtranno = #{xtranno}</if>
+            <if test="billAmt != null "> and bill_amt = #{billAmt}</if>
+            <if test="org1Code != null  and org1Code != ''"> and org1_code = #{org1Code}</if>
+            <if test="orgNo != null  and orgNo != ''"> and org_no = #{orgNo}</if>
+            <if test="custIsn != null  and custIsn != ''"> and cust_isn = #{custIsn}</if>
+            <if test="cardStatusTxt != null  and cardStatusTxt != ''"> and card_status_txt = #{cardStatusTxt}</if>
+            <if test="custName != null  and custName != ''"> and cust_name like concat('%', #{custName}, '%')</if>
+            <if test="certNo != null  and certNo != ''"> and cert_no = #{certNo}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTransactionsById" parameterType="Long" resultMap="TransactionsResult">
+        <include refid="selectTransactionsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTransactions" parameterType="Transactions" useGeneratedKeys="true" keyProperty="id">
+        insert into transactions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="acctnbr != null">acctnbr,</if>
+            <if test="inpDate != null">inp_date,</if>
+            <if test="inpTime != null">inp_time,</if>
+            <if test="xtranno != null">xtranno,</if>
+            <if test="billAmt != null">bill_amt,</if>
+            <if test="org1Code != null">org1_code,</if>
+            <if test="orgNo != null">org_no,</if>
+            <if test="custIsn != null">cust_isn,</if>
+            <if test="cardStatusTxt != null">card_status_txt,</if>
+            <if test="custName != null">cust_name,</if>
+            <if test="certNo != null">cert_no,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="orgName != null">org_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="acctnbr != null">#{acctnbr},</if>
+            <if test="inpDate != null">#{inpDate},</if>
+            <if test="inpTime != null">#{inpTime},</if>
+            <if test="xtranno != null">#{xtranno},</if>
+            <if test="billAmt != null">#{billAmt},</if>
+            <if test="org1Code != null">#{org1Code},</if>
+            <if test="orgNo != null">#{orgNo},</if>
+            <if test="custIsn != null">#{custIsn},</if>
+            <if test="cardStatusTxt != null">#{cardStatusTxt},</if>
+            <if test="custName != null">#{custName},</if>
+            <if test="certNo != null">#{certNo},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="orgName != null">#{orgName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTransactions" parameterType="Transactions">
+        update transactions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="acctnbr != null">acctnbr = #{acctnbr},</if>
+            <if test="inpDate != null">inp_date = #{inpDate},</if>
+            <if test="inpTime != null">inp_time = #{inpTime},</if>
+            <if test="xtranno != null">xtranno = #{xtranno},</if>
+            <if test="billAmt != null">bill_amt = #{billAmt},</if>
+            <if test="org1Code != null">org1_code = #{org1Code},</if>
+            <if test="orgNo != null">org_no = #{orgNo},</if>
+            <if test="custIsn != null">cust_isn = #{custIsn},</if>
+            <if test="cardStatusTxt != null">card_status_txt = #{cardStatusTxt},</if>
+            <if test="custName != null">cust_name = #{custName},</if>
+            <if test="certNo != null">cert_no = #{certNo},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="orgName != null">org_name = #{orgName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTransactionsById" parameterType="Long">
+        delete from transactions where id = #{id}
+    </delete>
+
+    <delete id="deleteTransactionsByIds" parameterType="String">
+        delete from transactions where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectTransactionsByAmountRange" parameterType="Prizes" resultMap="TransactionsResult">
+        select id, acctnbr, inp_date, inp_time, xtranno, bill_amt, org1_code, org_no, cust_isn, card_status_txt, cust_name, cert_no, card_no, org_name
+        FROM transactions t
+        <where>
+            <if test="minAmount != null"> and bill_amt >= #{minAmount}</if>
+            <if test="maxAmount != null"> and bill_amt &lt; #{maxAmount}</if>
+            and not exists (
+            select 1
+            from win_transactions w
+            where w.xtranno = t.xtranno
+            )
+        </where>
+    </select>
+</mapper>
